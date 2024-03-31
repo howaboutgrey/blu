@@ -1,0 +1,762 @@
+backend:
+  name: git-gateway
+  accept_roles:
+    - admin
+    - editor
+  branch: master
+media_folder: theme/assets/images
+public_folder: /assets/images
+collections:
+  - name: pages
+    label: Pages
+    identifier_field: title
+    extension: md
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    folder: cms/pages
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '{{slug}}.html'
+      - &ref_0
+        label: Seo
+        name: seo
+        widget: object
+        collapsed: true
+        fields:
+          - label: Title
+            name: title
+            widget: string
+            required: false
+          - label: Description
+            name: description
+            widget: string
+            required: false
+          - label: No index
+            name: noindex
+            widget: boolean
+            default: false
+            required: false
+          - label: Open Graph Title
+            name: og:title
+            widget: string
+            required: false
+          - label: Open Graph Image
+            name: og:image
+            widget: image
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - label: Twitter Title
+            name: twitter:title
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Card
+            name: twitter:card
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Site
+            name: twitter:site
+            widget: string
+            required: false
+          - label: Twitter Creator
+            name: twitter:creator
+            widget: string
+            required: false
+          - label: Twitter Image
+            name: twitter:image
+            widget: image
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - label: Additional HTML tags
+            name: additional_tags
+            widget: text
+            required: false
+  - name: projects
+    label: Projects
+    folder: cms/projects
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - label: Scope
+        name: body
+        widget: markdown
+        required: false
+      - hint: ''
+        name: f_thumbnail
+        label: Thumbnail
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_description
+        label: Description
+        widget: string
+        required: false
+      - hint: ''
+        name: f_process
+        label: Process
+        widget: string
+        required: false
+      - hint: ''
+        name: f_banner
+        label: Banner
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_big-image
+        label: Big image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_tall-image
+        label: Tall image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_wide-image
+        label: Wide image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_square-image
+        label: Square image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_featured
+        label: Featured
+        widget: boolean
+        required: false
+        default: false
+      - hint: ''
+        name: f_more-images
+        label: More images
+        widget: list
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: projects
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[projects].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+  - label: Theme Settings
+    name: settings
+    identifier_field: title
+    extension: json
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    files:
+      - label: General
+        name: site
+        file: cms/_data/settings/site.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: General
+          - hint: Full domain url (needed for a correct sitemap file)
+            name: domain
+            label: Domain
+            widget: string
+            required: false
+          - name: favicon
+            label: Favicon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: apple_touch_icon
+            label: Apple Touch Icon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: header_additional_content
+            label: Additional Content Header
+            hint: Content here will be placed before </head> tag
+            widget: text
+            required: false
+          - name: footer_additional_content
+            label: Additional Content Footer
+            hint: Content here will be placed before </body> tag
+            widget: text
+            required: false
+          - name: images_optimization
+            label: Images Optimization
+            widget: object
+            collapsed: false
+            fields:
+              - label: Image Formats
+                name: formats
+                widget: select
+                multiple: true
+                options:
+                  - label: Avif
+                    value: avif
+                  - label: Webp
+                    value: webp
+              - label: Image Dimensions
+                name: dimensions
+                widget: select
+                multiple: true
+                options:
+                  - label: '500'
+                    value: 500
+                  - label: '800'
+                    value: 800
+                  - label: '1080'
+                    value: 1080
+                  - label: '1600'
+                    value: 1600
+                  - label: '2000'
+                    value: 2000
+                  - label: '2600'
+                    value: 2600
+      - label: Colors
+        name: colors
+        file: cms/_data/colors.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Colors
+      - label: Texts
+        name: texts
+        file: cms/_data/texts.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Texts
+          - hint: 'Original text: MENU, key: 240d5f'
+            label: Text
+            name: 240d5f
+            widget: string
+          - hint: 'Original text: About, key: 3c2336d'
+            label: Text
+            name: 3c2336d
+            widget: string
+          - hint: 'Original text: All Projects, key: 24737c59'
+            label: Text
+            name: 24737c59
+            widget: string
+          - hint: 'Original text: Services, key: 560f747e'
+            label: Text
+            name: 560f747e
+            widget: string
+          - hint: 'Original text: Contact, key: -64104400'
+            label: Text
+            name: '-64104400'
+            widget: string
+          - hint: 'Original text: Our Mission:, key: 79860ec2'
+            label: Text
+            name: 79860ec2
+            widget: string
+          - hint: >-
+              Original text: Blu Group Creative's mission is to embolden brands,
+              enterprises, and individuals with the instruments of innovation
+              and creativity. We aim to be catalysts for transformation,
+              reshaping industries and perceptions through strategic design
+              thinking. Our dedication lies in forging profound connections
+              between ideas and audiences, cultivating engagement that extends
+              beyond superficial aesthetics. We aspire to be more than service
+              providers; we strive to become partners in our clients' odysseys,
+              collaboratively steering them towards triumphs that are resonant,
+              genuine, and enduring., key: 6aad0f16
+            label: Text
+            name: 6aad0f16
+            widget: text
+          - hint: 'Original text: Our Vision:, key: 19cda03e'
+            label: Text
+            name: 19cda03e
+            widget: string
+          - hint: >-
+              Original text: Blu Group Creative envisions a realm where
+              creativity thrives boundlessly. We envisage brands that are not
+              merely acknowledged, but celebrated for their authenticity and
+              imaginative brilliance. We envision narratives that universally
+              resonate, sparking meaningful dialogues and inspiring positive
+              change. Our vision encompasses leading the forefront of design and
+              innovation, setting benchmarks that redefine creative landscapes.
+              Our vision transcends the present, extending into a future where
+              innovation knows no bounds, and the influence of creativity
+              traverses every border., key: 4715f30f
+            label: Text
+            name: 4715f30f
+            widget: text
+          - hint: >-
+              Original text: The Collective Brilliance of Blu Group Creative,
+              key: 2e834810
+            label: Text
+            name: '2e834810'
+            widget: string
+          - hint: 'Original text: Huy Nguyen, key: -46df5ea6'
+            label: Text
+            name: '-46df5ea6'
+            widget: string
+          - hint: 'Original text: CEO, key: 1042d'
+            label: Text
+            name: 1042d
+            widget: string
+          - hint: 'Original text: Name, key: 24eeab'
+            label: Text
+            name: 24eeab
+            widget: string
+          - hint: 'Original text: Title, key: 4d13238'
+            label: Text
+            name: 4d13238
+            widget: string
+          - hint: 'Original text: Let''s talk, key: -13e0cf3b'
+            label: Text
+            name: '-13e0cf3b'
+            widget: string
+          - hint: 'Original text: Your name, key: -77dafdc8'
+            label: Text
+            name: '-77dafdc8'
+            widget: string
+          - hint: 'Original text: Your e-mail, key: b4ee8c'
+            label: Text
+            name: b4ee8c
+            widget: string
+          - hint: 'Original text: *, key: 2a'
+            label: Text
+            name: 2a
+            widget: string
+          - hint: 'Original text: Message, key: -63dc6819'
+            label: Text
+            name: '-63dc6819'
+            widget: string
+          - hint: >-
+              Original text: Thank you! Your submission has been received!, key:
+              5a0ea5a1
+            label: Text
+            name: 5a0ea5a1
+            widget: string
+          - hint: >-
+              Original text: Oops! Something went wrong while submitting the
+              form., key: -7c112e99
+            label: Text
+            name: '-7c112e99'
+            widget: string
+          - hint: 'Original text: Contact us, key: 7f274abe'
+            label: Text
+            name: 7f274abe
+            widget: string
+          - hint: 'Original text: Address, key: 1ed033d4'
+            label: Text
+            name: 1ed033d4
+            widget: string
+          - hint: >-
+              Original text: 273/3 Nguyen Trong Tuyen St.,Phu Nhuan Dist., Ho
+              Chi Minh City, key: -7ce5099f
+            label: Text
+            name: '-7ce5099f'
+            widget: string
+          - hint: 'Original text: Email, key: 3ff5b7c'
+            label: Text
+            name: 3ff5b7c
+            widget: string
+          - hint: 'Original text: hello@blugroup.one, key: 5fe68e1a'
+            label: Text
+            name: 5fe68e1a
+            widget: string
+          - hint: >-
+              Original text: Copyright © 2023 Blu Creative All rights reserved.,
+              key: -6c1e0fd9
+            label: Text
+            name: '-6c1e0fd9'
+            widget: string
+          - hint: 'Original text: Sculpting , key: 1b03ec49'
+            label: Text
+            name: 1b03ec49
+            widget: string
+          - hint: 'Original text: your brand, key: 507dd5a'
+            label: Text
+            name: 507dd5a
+            widget: string
+          - hint: 'Original text:  into, key: 1f45680'
+            label: Text
+            name: 1f45680
+            widget: string
+          - hint: 'Original text: a masterpiece that resonates , key: -1cd53c7a'
+            label: Text
+            name: '-1cd53c7a'
+            widget: string
+          - hint: 'Original text: with your audience., key: 3841f997'
+            label: Text
+            name: 3841f997
+            widget: string
+          - hint: 'Original text: Learn more about us, key: -cd5cc80'
+            label: Text
+            name: '-cd5cc80'
+            widget: string
+          - hint: 'Original text: They trusted us, key: 581e133f'
+            label: Text
+            name: 581e133f
+            widget: string
+          - hint: 'Original text: Our work, key: 391b85'
+            label: Text
+            name: 391b85
+            widget: string
+          - hint: 'Original text: No items found., key: 3d503d2b'
+            label: Text
+            name: 3d503d2b
+            widget: string
+          - hint: 'Original text: See all our work, key: -2e8f662f'
+            label: Text
+            name: '-2e8f662f'
+            widget: string
+          - hint: 'Original text: All projects, key: 20991839'
+            label: Text
+            name: '20991839'
+            widget: string
+          - hint: >-
+              Original text: Our journey commenced with a shared conviction that
+              the ordinary can metamorphose into the extraordinary through
+              innovation and artistic brilliance., key: -7c50ee3d
+            label: Text
+            name: '-7c50ee3d'
+            widget: text
+          - hint: 'Original text: What we do, key: -2d422d1f'
+            label: Text
+            name: '-2d422d1f'
+            widget: string
+          - hint: >-
+              Original text: We leverage brands through winning strategies and
+              complex techniques, key: 625f6585
+            label: Text
+            name: 625f6585
+            widget: string
+          - hint: 'Original text: 03/ , key: 169714'
+            label: Text
+            name: '169714'
+            widget: string
+          - hint: 'Original text: Creative Service, key: 5d08f44'
+            label: Text
+            name: 5d08f44
+            widget: string
+          - hint: >-
+              Original text: Ensure your brand is always represented in the best
+              way possible with a professionally designed suite of collateral.
+              We have an inhouse team of design experts who are across all forms
+              of businesscollateral for your brand. We create custom items based
+              on your exact needs, and we take the stress of dealing with
+              printers and suppliers out of your hands. Speak to us about any of
+              your ad hoc design needs., key: 69efcce2
+            label: Text
+            name: 69efcce2
+            widget: text
+          - hint: 'Original text: 01/ , key: 168f92'
+            label: Text
+            name: 168f92
+            widget: string
+          - hint: 'Original text: Branding, key: 2572f1b'
+            label: Text
+            name: 2572f1b
+            widget: string
+          - hint: >-
+              Original text: At Blu Group Creative, our branding service is more
+              than just design – it's a transformative journey that empowers
+              your brand to tell a compelling story. We believe that a brand is
+              not just a logo; it's an experience, an emotion, and a promise.
+              Our dedicated team of branding experts delves deep into the
+              essence of your business, uncovering its unique personality and
+              aspirations. With a meticulous blend of strategic thinking and
+              artistic flair, we craft an identity that resonates with your
+              target audience, leaving a lasting imprint., key: 8b13f04
+            label: Text
+            name: 8b13f04
+            widget: text
+          - hint: 'Original text: 02/ , key: 169353'
+            label: Text
+            name: '169353'
+            widget: string
+          - hint: 'Original text: 3D/CGI service, key: 35c0735c'
+            label: Text
+            name: 35c0735c
+            widget: string
+          - hint: >-
+              Original text: You need to create your 3D commercials? we have
+              best-in-town artists you can find. With more than 20 years in the
+              fields, our artists involved in many different projects with
+              highest quality., key: -3770a983
+            label: Text
+            name: '-3770a983'
+            widget: text
+          - hint: 'Original text: Client, key: 7877dfeb'
+            label: Text
+            name: 7877dfeb
+            widget: string
+          - hint: 'Original text: Project scope:, key: -77a8893'
+            label: Text
+            name: '-77a8893'
+            widget: string
+          - hint: 'Original text: Description:, key: -68b9b022'
+            label: Text
+            name: '-68b9b022'
+            widget: string
+          - hint: 'Original text: Project snapshots:, key: -73cd6d8e'
+            label: Text
+            name: '-73cd6d8e'
+            widget: string
+      - label: Links
+        name: links
+        file: cms/_data/links.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Links
+          - hint: 'Original link: /, key: 2f'
+            label: Link
+            name: 2f
+            widget: string
+          - hint: 'Original link: /about-us/, key: -766f6c3e'
+            label: Link
+            name: '-766f6c3e'
+            widget: string
+          - hint: 'Original link: /all-projects/, key: -5da27e06'
+            label: Link
+            name: '-5da27e06'
+            widget: string
+          - hint: 'Original link: /services/, key: -32173fbe'
+            label: Link
+            name: '-32173fbe'
+            widget: string
+          - hint: 'Original link: /contact/, key: 16bdc13e'
+            label: Link
+            name: 16bdc13e
+            widget: string
+          - hint: 'Original link: #, key: 23'
+            label: Link
+            name: '23'
+            widget: string
+      - label: Images
+        name: images
+        file: cms/_data/images.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Images
+          - label: Image
+            name: 74d5d224
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 4ef667b8
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i31765339
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i46796a01
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 1dc8355
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5f53d04a
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 1ce6bd4
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+local_backend: true
+publish_mode: editorial_workflow
